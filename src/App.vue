@@ -9,22 +9,23 @@
 </template>
 
 <script>
-import Header from './pages/header'
-import Main from './pages/main'
-import Right from './pages/right'
+import Header from "./pages/header";
+import Main from "./pages/main";
+import Right from "./pages/right";
 export default {
   name: "App",
   components: {
     Header,
     Right,
-    Main
+    Main,
   },
   computed: {
     showRight() {
-      const { preview, activeComp } = this.$store.state
-      return !preview && activeComp && activeComp.type
-    }
-  }
+      //编辑模式并且有选中组件
+      const { preview, activeComp } = this.$store.state;
+      return !preview && activeComp && activeComp.type;
+    },
+  },
 };
 </script>
 

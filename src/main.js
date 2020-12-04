@@ -5,12 +5,15 @@ import { Button, Card, Input, Tree, Dialog, Form, FormItem } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import Store from './store'
-import ToRouterView from './pages/common/routerView'
+import { routes } from './router'
+import coreComps from './pages/lib'
 import dragComps from './components'
 
 Vue.config.productionTip = false
+
 //全局注册router-view容器
-Vue.component(ToRouterView.name, ToRouterView)
+Vue.use(coreComps)
+
 //注册全局拖拉组件
 Vue.use(dragComps)
 
@@ -28,12 +31,11 @@ Vue.component(FormItem.name, FormItem)
 //store
 Vue.use(Vuex)
 const store = new Vuex.Store(Store)
-//添加路由功能
+
+//router
 Vue.use(VueRouter)
-const router = new VueRouter({
-  mode: 'history',
-  routes: []
-})
+const router = new VueRouter(routes)
+
 //收集组件vm实例放入compsVm中
 Vue.mixin({
   created() {

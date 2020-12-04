@@ -4,12 +4,12 @@
   </div>
 </template>
 <script>
-import DragContainer from './common/dragContainer'
+import DragContainer from "./lib/dragContainer";
 export default {
   components: {
-    DragContainer
-  }
-}
+    DragContainer,
+  },
+};
 </script>
 <style scoped lang="less">
 .main {

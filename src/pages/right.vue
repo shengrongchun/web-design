@@ -1,19 +1,19 @@
 <template>
   <div class="right">
-    <views v-if="$store.state.activeComp.type==='to-router-view'" />
+    <viewsContainer v-if="$store.state.activeComp.type === 'to-router-view'" />
   </div>
 </template>
 <script>
-import Views from './dialogs/views'
+import viewsContainer from "./editor/viewsContainer";
 export default {
   components: {
-    Views
-  }
-}
+    viewsContainer,
+  },
+};
 </script>
 <style scoped lang="less">
 .right {
   flex: 3;
-  background: #fff;
+  background: #ecf5ff;
 }
 </style>

@@ -1,46 +1,41 @@
 <template>
-  <div :class="{'header':true,'hidden':!show}">
+  <div :class="{ header: true, hidden: !show }">
     <template v-if="show">
-      <div class="header-left">
-        web-design
-      </div>
+      <div class="header-left">web-design</div>
       <div class="header-right">
-        <div class="header-btn"
-             @click="$refs.comps.showDrawer=true">选取组件</div>
-        <div class="header-btn"
-             @click="onPreview(true)">预览</div>
+        <div class="header-btn" @click="$refs.comps.showDrawer = true">
+          选取组件
+        </div>
+        <div class="header-btn" @click="onPreview(true)">预览</div>
       </div>
     </template>
-    <div class="goback"
-         v-if="!show">
-      <el-button type="primary"
-                 plain
-                 @click="onPreview(false)">返回</el-button>
+    <div class="goback" v-if="!show">
+      <el-button type="primary" plain @click="onPreview(false)">返回</el-button>
     </div>
     <DrawerContainer ref="comps">
-      <Comps />
+      <CompsContainer />
     </DrawerContainer>
   </div>
 </template>
 <script>
-import DrawerContainer from './common/drawerContainer'
-import Comps from './dialogs/comps'
+import DrawerContainer from "./editor/drawerContainer";
+import CompsContainer from "./editor/compsContainer";
 export default {
   computed: {
     show() {
-      return !this.$store.state.preview
-    }
+      return !this.$store.state.preview;
+    },
   },
   components: {
     DrawerContainer,
-    Comps,
+    CompsContainer,
   },
   methods: {
     onPreview(val) {
-      this.$store.commit('previewChange', val)
-    }
-  }
-}
+      this.$store.commit("previewChange", val);
+    },
+  },
+};
 </script>
 <style scoped lang="less">
 .header {

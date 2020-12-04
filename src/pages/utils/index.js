@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router'
-import DragContainer from '../common/dragContainer'
+import DragContainer from '../lib/dragContainer'
 const setDeepRoutes = (list, routes) => {
   list.forEach(item => {
     const { type, path, children } = item
