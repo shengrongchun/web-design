@@ -15,5 +15,6 @@ export default {
 </script>
 <style scoped lang="less">
 .table-comp {
+  background: green;
 }
 </style>

@@ -10,20 +10,21 @@
                  :isDraggable="!preview"
                  :responsive="false"
                  :margin="[0, 0]">
-      <grid-item v-for="(comp) in list"
+      <grid-item v-for="comp in list"
                  :x="comp.x"
                  :y="comp.y"
                  :w="comp.w"
                  :h="comp.h"
                  :i="comp.i"
+                 :class="{'active':(comp.i===$store.state.activeComp.i&&!preview)}"
+                 @click.native.stop="$store.commit('changeActiveComp',comp)"
                  :key="comp.i">
         <component :is="comp.type"
-                   :class="{'active':(comp.i===$store.state.activeComp.i&&!preview)}"
                    :COMP="comp"
-                   @click.native.stop="$store.commit('changeActiveComp',comp)"
                    class="comp">
-          <dragContainer slot="$$container"
-                         :list="comp.children" />
+          nodata
+          <!-- <dragContainer slot="$$container"
+                         :list="comp.children" /> -->
         </component>
       </grid-item>
     </grid-layout>
@@ -61,10 +62,9 @@ export default {
           list: this.list
         })
       }
-      console.log(title, type)
     }
   },
-};
+}
 </script>
 <style scoped lang="less">
 .drag-container {
@@ -80,16 +80,19 @@ export default {
       box-sizing: border-box;
       background: #eee;
       cursor: default !important;
+      &.active {
+        border: 1px solid #61a9f8 !important;
+      }
     }
   }
   .comp {
     //组件样式
     height: 100%;
     width: 100%;
-    background: #fff;
-    &.active {
-      border: 1px solid #61a9f8 !important;
-    }
+    // background: #fff;
+    // &.active {
+    //   border: 1px solid #61a9f8 !important;
+    // }
   }
 }
 </style>

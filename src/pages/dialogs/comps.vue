@@ -24,7 +24,7 @@ export default {
       compName: '',
       showDrawer: false,
       compsList: [{
-        title: '路由组件',
+        title: '路由容器',
         name: 'to-router-view',
         img: require('../../img/router-view.jpg')
       }]

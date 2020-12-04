@@ -6,8 +6,6 @@
       </div>
       <div class="header-right">
         <div class="header-btn"
-             @click="$refs.views.showDrawer=true">项目结构</div>
-        <div class="header-btn"
              @click="$refs.comps.showDrawer=true">选取组件</div>
         <div class="header-btn"
              @click="onPreview(true)">预览</div>
@@ -22,15 +20,11 @@
     <DrawerContainer ref="comps">
       <Comps />
     </DrawerContainer>
-    <DrawerContainer ref="views">
-      <Views />
-    </DrawerContainer>
   </div>
 </template>
 <script>
 import DrawerContainer from './common/drawerContainer'
 import Comps from './dialogs/comps'
-import Views from './dialogs/views'
 export default {
   computed: {
     show() {
@@ -40,7 +34,6 @@ export default {
   components: {
     DrawerContainer,
     Comps,
-    Views
   },
   methods: {
     onPreview(val) {

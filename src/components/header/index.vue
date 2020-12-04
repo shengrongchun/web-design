@@ -15,5 +15,6 @@ export default {
 </script>
 <style scoped lang="less">
 .header-comp {
+  background: blue;
 }
 </style>

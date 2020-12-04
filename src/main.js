@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { Button, Card, Input, Tree } from 'element-ui'
+import { Button, Card, Input, Tree, Dialog, Form, FormItem } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import Store from './store'
@@ -21,6 +21,9 @@ Vue.component(Button.name, Button)
 Vue.component(Card.name, Card)
 Vue.component(Input.name, Input)
 Vue.component(Tree.name, Tree)
+Vue.component(Dialog.name, Dialog)
+Vue.component(Form.name, Form)
+Vue.component(FormItem.name, FormItem)
 
 //store
 Vue.use(Vuex)
@@ -28,6 +31,7 @@ const store = new Vuex.Store(Store)
 //添加路由功能
 Vue.use(VueRouter)
 const router = new VueRouter({
+  mode: 'history',
   routes: []
 })
 //收集组件vm实例放入compsVm中

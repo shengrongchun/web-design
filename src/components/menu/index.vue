@@ -15,5 +15,6 @@ export default {
 </script>
 <style scoped lang="less">
 .menu-comp {
+  background: yellow;
 }
 </style>
