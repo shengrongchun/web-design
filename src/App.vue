@@ -26,6 +26,12 @@ export default {
       return !preview && activeComp && activeComp.type;
     },
   },
+  created() {
+    const { id } = this.$route.query
+    if (id !== undefined) {
+      this.$store.commit('onLineChange', this)//浏览模式
+    }
+  },
 };
 </script>
 

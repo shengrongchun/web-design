@@ -1,16 +1,23 @@
 <template>
   <div :class="{ header: true, hidden: !show }">
     <template v-if="show">
-      <div class="header-left">web-design</div>
+      <div class="header-left">WebDesign</div>
       <div class="header-right">
-        <div class="header-btn" @click="$refs.comps.showDrawer = true">
+        <div class="header-btn"
+             @click="$refs.comps.showDrawer = true">
           选取组件
         </div>
-        <div class="header-btn" @click="onPreview(true)">预览</div>
+        <div class="header-btn"
+             @click="onPreview(true)">预览</div>
+        <div class="header-btn"
+             @click="onSave()">保存</div>
       </div>
     </template>
-    <div class="goback" v-if="!show">
-      <el-button type="primary" plain @click="onPreview(false)">返回</el-button>
+    <div class="goback"
+         v-if="!$store.state.onLine">
+      <el-button type="primary"
+                 plain
+                 @click="onPreview(false)">返回</el-button>
     </div>
     <DrawerContainer ref="comps">
       <CompsContainer />
@@ -34,13 +41,16 @@ export default {
     onPreview(val) {
       this.$store.commit("previewChange", val);
     },
+    onSave() {//保存配置信息
+      this.$store.commit("saveCompList");
+    }
   },
 };
 </script>
 <style scoped lang="less">
 .header {
   padding: 0 15px;
-  background: #313f69;
+  background: #282f46;
   height: 40px;
   line-height: 38px;
   display: flex;
@@ -57,10 +67,10 @@ export default {
     padding: 0 10px;
     font-size: 12px;
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 4px;
     font-weight: bolder;
     color: #eee;
-    background: #282f46;
+    background: #191f31;
     line-height: 22px;
     height: 22px;
     & + {
@@ -70,7 +80,7 @@ export default {
   .goback {
     position: fixed;
     right: 10px;
-    top: 5px;
+    bottom: 15px;
     z-index: 1;
   }
 }

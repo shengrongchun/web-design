@@ -1,6 +1,7 @@
 <template>
   <div class="header-comp">
-    header
+    <div>中通科技</div>
+    <div>退出</div>
   </div>
 </template>
 <script>
@@ -15,6 +16,12 @@ export default {
 </script>
 <style scoped lang="less">
 .header-comp {
-  background: blue;
+  color: hsla(0, 0%, 100%, 0.8);
+  background: linear-gradient(315deg, #5430ff, #3693ff);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 13px;
 }
 </style>

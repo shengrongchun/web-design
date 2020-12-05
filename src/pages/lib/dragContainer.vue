@@ -1,27 +1,27 @@
 <template>
-  <div class="drag-container" @dragover.prevent @drop.prevent.stop="onDrop">
-    <grid-layout
-      v-if="list.length > 0"
-      :layout.sync="list"
-      :col-num="$store.state.colNum"
-      :row-height="$store.state.rowHeight"
-      :isResizable="!preview"
-      :isDraggable="!preview"
-      :responsive="false"
-      :margin="[0, 0]"
-    >
-      <grid-item
-        v-for="comp in list"
-        :x="comp.x"
-        :y="comp.y"
-        :w="comp.w"
-        :h="comp.h"
-        :i="comp.i"
-        :key="comp.i"
-        :class="{ active: comp.i === $store.state.activeComp.i && !preview }"
-        @click.native.stop="onChangeActiveComp(comp)"
-      >
-        <component :is="comp.type" :COMP="comp" class="comp">
+  <div class="drag-container"
+       @dragover.prevent
+       @drop.prevent.stop="onDrop">
+    <grid-layout v-if="list.length > 0"
+                 :layout.sync="list"
+                 :col-num="$store.state.colNum"
+                 :row-height="$store.state.rowHeight"
+                 :isResizable="!preview"
+                 :isDraggable="!preview"
+                 :responsive="false"
+                 :margin="[0, 0]">
+      <grid-item v-for="comp in list"
+                 :x="comp.x"
+                 :y="comp.y"
+                 :w="comp.w"
+                 :h="comp.h"
+                 :i="comp.i"
+                 :key="comp.i"
+                 :class="{ active: comp.i === $store.state.activeComp.i && !preview }"
+                 @click.native.stop="onChangeActiveComp(comp)">
+        <component :is="comp.type"
+                   :COMP="comp"
+                   class="comp">
           nodata
           <!-- <dragContainer slot="$$container"
                          :list="comp.children" /> -->
@@ -81,7 +81,6 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  padding-bottom: 20px;
   .vue-grid-layout {
     .vue-grid-item {
       box-sizing: border-box;
@@ -96,6 +95,7 @@ export default {
     //组件样式
     height: 100%;
     width: 100%;
+    box-sizing: border-box;
     // background: #fff;
     // &.active {
     //   border: 1px solid #61a9f8 !important;
