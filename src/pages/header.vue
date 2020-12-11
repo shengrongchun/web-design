@@ -4,7 +4,7 @@
       <div class="header-left">WebDesign</div>
       <div class="header-right">
         <div class="header-btn"
-             @click="$refs.comps.showDrawer = true">
+             @click="showDrawer = true">
           选取组件
         </div>
         <div class="header-btn"
@@ -19,7 +19,8 @@
                  plain
                  @click="onPreview(false)">返回</el-button>
     </div>
-    <DrawerContainer ref="comps">
+    <DrawerContainer ref="comps"
+                     v-model="showDrawer">
       <CompsContainer />
     </DrawerContainer>
   </div>
@@ -32,6 +33,11 @@ export default {
     show() {
       return !this.$store.state.preview;
     },
+  },
+  data() {
+    return {
+      showDrawer: false
+    }
   },
   components: {
     DrawerContainer,

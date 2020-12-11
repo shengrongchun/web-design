@@ -21,14 +21,14 @@ export default {
     },
     saveCompList(state) {//保存事件
       const tempData = JSON.stringify(state.compList)
-      window.localstorage.setItem('web-design', tempData)
+      window.localStorage.setItem('web-design', tempData)
       alert('保存成功')
     },
     onLineChange(state, VM) {
       state.onLine = true
       state.preview = true
       //
-      const tempData = JSON.parse(window.localstorage.getItem('web-design'))
+      const tempData = JSON.parse(window.localStorage.getItem('web-design'))
       console.log('tempData', tempData)
       state.compList = tempData || []
       addRoutes(VM, state.compList)//初始化注册路由

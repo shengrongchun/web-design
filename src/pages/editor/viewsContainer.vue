@@ -1,67 +1,71 @@
 <template>
   <div class="viewsContainer">
-    <el-tree
-      class="filter-tree"
-      :data="$store.state.compList"
-      :props="defaultProps"
-      default-expand-all
-      :expand-on-click-node="false"
-      node-key="i"
-      highlight-current
-      @node-click="onNodeClick"
-      :filter-node-method="onFilterNode"
-      ref="tree"
-    >
-      <span class="custom-tree-node" slot-scope="{ data, node }">
-        <span
-          >{{ data.type === "to-router-page" ? "页面/" : ""
-          }}{{ data.title }}</span
-        >
+    <el-tree class="filter-tree"
+             :data="$store.state.compList"
+             :props="defaultProps"
+             default-expand-all
+             :expand-on-click-node="false"
+             node-key="i"
+             highlight-current
+             @node-click="onNodeClick"
+             :filter-node-method="onFilterNode"
+             ref="tree">
+      <span class="custom-tree-node"
+            slot-scope="{ data, node }">
+        <span>{{ data.type === "to-router-page" ? "页面/" : ""
+          }}{{ data.title }}</span>
         <span>
-          <el-button
-            type="text"
-            @click="onAddPage(data, node)"
-            v-if="data.type === 'to-router-view'"
-            size="mini"
-          >
+          <el-button type="text"
+                     @click="onAddPage(data, node)"
+                     v-if="data.type === 'to-router-view'"
+                     size="mini">
             添加
           </el-button>
-          <el-button
-            type="text"
-            @click="onAddPage(data, node)"
-            v-if="data.type === 'to-router-page'"
-            size="mini"
-          >
+          <el-button type="text"
+                     @click="onAddPage(data, node)"
+                     v-if="data.type === 'to-router-page'"
+                     size="mini">
             编辑
           </el-button>
-          <el-button type="text" size="mini"> 删除 </el-button>
+          <el-button type="text"
+                     size="mini"> 删除 </el-button>
         </span>
       </span>
     </el-tree>
-    <el-dialog title="添加页面" :visible.sync="dialogVisible" width="40%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="页面名称" prop="title">
-          <el-input
-            v-model="form.title"
-            placeholder="请输入页面名称"
-          ></el-input>
+    <el-dialog title="添加页面"
+               :visible.sync="dialogVisible"
+               width="40%">
+      <el-form ref="form"
+               :model="form"
+               :rules="rules"
+               label-width="80px">
+        <el-form-item label="页面名称"
+                      prop="title">
+          <el-input v-model="form.title"
+                    placeholder="请输入页面名称"></el-input>
         </el-form-item>
-        <el-form-item label="页面路径" prop="path">
-          <el-input v-model="form.path" placeholder="请输入页面路径">
+        <el-form-item label="页面路径"
+                      prop="path">
+          <el-input v-model="form.path"
+                    placeholder="请输入页面路径">
             <template slot="prepend">{{ parentPath + "/" }}</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="已占路径" v-if="tempData.children.length">
+        <el-form-item label="已占路径"
+                      v-if="tempData.children.length">
           <ul class="pathUl">
-            <li v-for="(page, idx) in tempData.children" :key="idx">
+            <li v-for="(page, idx) in tempData.children"
+                :key="idx">
               {{ page.title }}：{{ page.path }}
             </li>
           </ul>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer"
+            class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onConfirmAddPage">确 定</el-button>
+        <el-button type="primary"
+                   @click="onConfirmAddPage">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -88,6 +92,10 @@ export default {
   },
   created() {
     const validatePageName = (rule, value, callback) => {
+      if (value.indexOf('/') > -1) {
+        callback(new Error("输入路径不能包含 /"))
+        return
+      }
       let obj = null;
       const { children, path } = this.tempData;
       if (children && children.length) {
@@ -97,7 +105,7 @@ export default {
       }
       //
       if (obj) {
-        callback(new Error("路径重复"));
+        callback(new Error("路径重复"))
       } else {
         callback();
       }

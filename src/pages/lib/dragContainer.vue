@@ -60,8 +60,12 @@ export default {
       this.$store.commit("changeActiveComp", comp);
     },
     onDrop(ev) {
+      const dataObj = ev.dataTransfer.getData("type")
+      if (dataObj === '') {
+        return
+      }
       // 拖组件
-      const { type, title } = JSON.parse(ev.dataTransfer.getData("type")) || {};
+      const { type, title } = JSON.parse(dataObj) || {};
       if (type) {
         this.$store.commit("addComp", {
           title,
