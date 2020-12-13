@@ -1,69 +1,79 @@
 <template>
-  <div :class="{ header: true, hidden: !show }">
-    <template v-if="show">
+  <div class="header">
+    <template>
       <div class="header-left">WebDesign</div>
       <div class="header-right">
-        <div class="header-btn"
-             @click="showDrawer = true">
-          选取组件
-        </div>
-        <div class="header-btn"
-             @click="onPreview(true)">预览</div>
-        <div class="header-btn"
-             @click="onSave()">保存</div>
+        <div class="header-btn" @click="onShowDrawer('Views')">页面结构</div>
+        <div class="header-btn" @click="onShowDrawer('Comps')">选取组件</div>
+        <div class="header-btn" @click="onPreview">预览</div>
+        <div class="header-btn" @click="onSave">保存</div>
       </div>
     </template>
-    <div class="goback"
-         v-if="!$store.state.onLine">
-      <el-button type="primary"
-                 plain
-                 @click="onPreview(false)">返回</el-button>
-    </div>
-    <DrawerContainer ref="comps"
-                     v-model="showDrawer">
+    <!-- 页面结构 -->
+    <DrawerContainer v-model="showViews" title="页面结构">
+      <ViewsContainer />
+    </DrawerContainer>
+    <!-- 选取组件 -->
+    <DrawerContainer v-model="showComps" title="选取组件">
       <CompsContainer />
+    </DrawerContainer>
+    <!-- 选中组件配置页面 -->
+    <DrawerContainer v-model="showEdits" title="组件配置">
+      <EditsContainer />
     </DrawerContainer>
   </div>
 </template>
 <script>
-import DrawerContainer from "./editor/drawerContainer";
+import DrawerContainer from "./lib/drawerContainer";
 import CompsContainer from "./editor/compsContainer";
+import ViewsContainer from "./editor/viewsContainer";
+import EditsContainer from "./editor/editsContainer";
 export default {
-  computed: {
-    show() {
-      return !this.$store.state.preview;
-    },
-  },
   data() {
     return {
-      showDrawer: false
-    }
+      showComps: false,
+      showViews: false,
+      showEdits: false,
+    };
   },
   components: {
     DrawerContainer,
     CompsContainer,
+    ViewsContainer,
+    EditsContainer,
+  },
+  watch: {
+    "$store.state.activeComp": {
+      //监听选中组件的变化
+      handler(newVal) {
+        const { type } = newVal;
+        this.onShowDrawer(type === "to-router-view" ? "Views" : "Edits");
+      },
+    },
   },
   methods: {
-    onPreview(val) {
-      this.$store.commit("previewChange", val);
+    onShowDrawer(mask) {
+      this.showEdits = this.showComps = this.showViews = false;
+      this["show" + mask] = true;
     },
-    onSave() {//保存配置信息
+    onPreview() {
+      this.$store.commit("modeChange", "preview");
+    },
+    onSave() {
+      //保存配置信息
       this.$store.commit("saveCompList");
-    }
+    },
   },
 };
 </script>
 <style scoped lang="less">
 .header {
   padding: 0 15px;
-  background: #282f46;
-  height: 40px;
-  line-height: 38px;
+  background: #051525;
+  height: 36px;
+  line-height: 34px;
   display: flex;
   justify-content: space-between;
-  &.hidden {
-    height: 0;
-  }
   .header-left,
   .header-right {
     color: #fff;
@@ -76,18 +86,12 @@ export default {
     border-radius: 4px;
     font-weight: bolder;
     color: #eee;
-    background: #191f31;
+    //background: #282f46;
     line-height: 22px;
     height: 22px;
     & + {
       margin-left: 10px;
     }
-  }
-  .goback {
-    position: fixed;
-    right: 10px;
-    bottom: 15px;
-    z-index: 1;
   }
 }
 </style>

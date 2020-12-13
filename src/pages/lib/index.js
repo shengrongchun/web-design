@@ -1,8 +1,10 @@
-import RouterView from './routerView'
-//
-const install = (Vue) => {
-    Vue.component(RouterView.name, RouterView)
-}
-export default {
-    install
-}
+// import DrawerContainer from './drawerContainer'
+// import DragContainer from './dragContainer'
+// //
+// const install = (Vue) => {
+//     Vue.component(DrawerContainer.name, DrawerContainer)
+//     Vue.component(DragContainer.name, DragContainer)
+// }
+// export default {
+//     install
+// }

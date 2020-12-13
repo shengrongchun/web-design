@@ -1,172 +1,153 @@
 <template>
   <div class="viewsContainer">
-    <el-tree class="filter-tree"
-             :data="$store.state.compList"
-             :props="defaultProps"
-             default-expand-all
-             :expand-on-click-node="false"
-             node-key="i"
-             highlight-current
-             @node-click="onNodeClick"
-             :filter-node-method="onFilterNode"
-             ref="tree">
-      <span class="custom-tree-node"
-            slot-scope="{ data, node }">
-        <span>{{ data.type === "to-router-page" ? "页面/" : ""
-          }}{{ data.title }}</span>
+    <el-tree
+      class="filter-tree"
+      :data="$store.state.compList"
+      :props="defaultProps"
+      default-expand-all
+      :expand-on-click-node="false"
+      node-key="i"
+      highlight-current
+      @node-click="onNodeClick"
+      ref="tree"
+    >
+      <span class="custom-tree-node" slot-scope="{ data, node }">
+        <span>{{ data.title }}{{ data.type | filterType }}</span>
         <span>
-          <el-button type="text"
-                     @click="onAddPage(data, node)"
-                     v-if="data.type === 'to-router-view'"
-                     size="mini">
+          <!-- 路由 -->
+          <el-button
+            type="text"
+            @click="onAddPage(data, node)"
+            v-if="data.type === 'to-router-view'"
+            size="mini"
+          >
             添加
           </el-button>
-          <el-button type="text"
-                     @click="onAddPage(data, node)"
-                     v-if="data.type === 'to-router-page'"
-                     size="mini">
+          <!-- 页面 -->
+          <el-button
+            type="text"
+            @click="onEditPage(data, node)"
+            v-if="data.type === 'to-router-page'"
+            size="mini"
+          >
             编辑
           </el-button>
-          <el-button type="text"
-                     size="mini"> 删除 </el-button>
+          <el-button type="text" size="mini" @click="onDelete(data, node)">
+            删除
+          </el-button>
         </span>
       </span>
     </el-tree>
-    <el-dialog title="添加页面"
-               :visible.sync="dialogVisible"
-               width="40%">
-      <el-form ref="form"
-               :model="form"
-               :rules="rules"
-               label-width="80px">
-        <el-form-item label="页面名称"
-                      prop="title">
-          <el-input v-model="form.title"
-                    placeholder="请输入页面名称"></el-input>
-        </el-form-item>
-        <el-form-item label="页面路径"
-                      prop="path">
-          <el-input v-model="form.path"
-                    placeholder="请输入页面路径">
-            <template slot="prepend">{{ parentPath + "/" }}</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="已占路径"
-                      v-if="tempData.children.length">
-          <ul class="pathUl">
-            <li v-for="(page, idx) in tempData.children"
-                :key="idx">
-              {{ page.title }}：{{ page.path }}
-            </li>
-          </ul>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="onConfirmAddPage">确 定</el-button>
-      </span>
-    </el-dialog>
+    <DialogContainer
+      v-model="dialogVisible"
+      :form="data"
+      :children="children"
+      @success="onSuccess"
+    />
   </div>
 </template>
 <script>
 import { addRoutes } from "../../router";
+import DialogContainer from "./commonComps/dialogContainer";
 export default {
   data() {
     return {
       dialogVisible: false,
-      tempData: {
-        children: [],
-      },
-      parentPath: "",
-      form: {
-        title: null,
-        path: null,
-      },
       defaultProps: {
         children: "children",
         label: "title",
       },
+      children: [], //容器下面的孩子
+      data: {}, //页面信息
+      editData: null,
     };
   },
-  created() {
-    const validatePageName = (rule, value, callback) => {
-      if (value.indexOf('/') > -1) {
-        callback(new Error("输入路径不能包含 /"))
-        return
-      }
-      let obj = null;
-      const { children, path } = this.tempData;
-      if (children && children.length) {
-        obj = children.find((item) => {
-          return item.path === path + value;
-        });
-      }
-      //
-      if (obj) {
-        callback(new Error("路径重复"))
-      } else {
-        callback();
-      }
-    };
-    this.rules = {
-      title: [{ required: true, message: "请输入页面名称", trigger: "blur" }],
-      path: [
-        // { required: true, message: '请输入页面路径', trigger: 'blur' },
-        { validator: validatePageName, trigger: "blur" },
-      ],
-    };
+  components: {
+    DialogContainer,
   },
-  mounted() {
-    this.$refs.tree.filter();
+  filters: {
+    filterType(type) {
+      if (type === "to-router-page") {
+        return "(页面)";
+      }
+      if (type === "to-router-view") {
+        return "(路由)";
+      }
+      return "(组件)";
+    },
   },
   methods: {
-    onConfirmAddPage() {
-      //确认添加页面
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.dialogVisible = false;
-          this.addPageSuccess();
-        }
-      });
-    },
-    addPageSuccess() {
-      const { title, path } = this.form;
-      const page = {
-        type: "to-router-page",
-        title,
-        path: this.parentPath + "/" + (path || ""),
-        children: [], //装子组件
-      };
-      this.tempData.children.push(page);
-      //添加路由
+    onSuccess({ children, data }) {
+      this.dialogVisible = false;
+      if (!this.editData) {
+        //添加
+        const { title, path, parentPath } = data;
+        const page = {
+          type: "to-router-page",
+          title,
+          path: parentPath + "/" + (path || ""),
+          children: [], //装子组件
+        };
+        children.push(page);
+      } else {
+        //编辑页面
+        const { path, parentPath, title } = data;
+        Object.assign(this.editData, {
+          title,
+          path: parentPath + "/" + (path || ""),
+        });
+      }
+      //更新路由
       addRoutes(this, this.$store.state.compList);
     },
     onAddPage(data, node) {
+      //添加页面
       this.dialogVisible = true;
-      this.tempData = data;
-      this.parentPath = "";
-      if (node.parent && node.parent.label) {
-        this.parentPath = node.parent.data.path;
+      this.editData = null;
+      //获取父级path
+      let parentPath = "";
+      if (node.parent && node.parent.data) {
+        parentPath = node.parent.data.path || "";
       }
+      this.data = { parentPath, path: "", title: null };
+      this.children = data.children || [];
+    },
+    onEditPage(data, node) {
+      //编辑
+      this.dialogVisible = true;
+      this.editData = data;
+      const { path: tempPath, title } = data;
+      const end = tempPath.lastIndexOf("/");
+      const parentPath = tempPath.slice(0, end);
+      const path = tempPath.slice(end + 1);
+      this.data = { path, parentPath, title };
+      this.children = (node.parent.data.children || []).filter(({ path }) => {
+        return path !== tempPath;
+      });
     },
     onNodeClick({ path, type }) {
       //节点点击事件
-      if (type === "to-router-page" && this.$route.fullPath !== path) {
+      if (
+        type === "to-router-page" &&
+        this.$route.fullPath !== path &&
+        this.$route.fullPath + "/" !== path &&
+        this.$route.fullPath !== path + "/"
+      ) {
         //页面点击
         this.$router.push({ path });
       }
     },
-    onFilterNode(value, { type }) {
-      //过滤节点
-      return type === "to-router-view" || type === "to-router-page";
-    },
+    onDelete() {},
   },
 };
 </script>
 <style scoped lang="less">
 .viewsContainer {
+  height: 100%;
+  display: flex;
+  .filter-tree {
+    flex: 1;
+  }
   .custom-tree-node {
     flex: 1;
     display: flex;
@@ -174,11 +155,6 @@ export default {
     justify-content: space-between;
     font-size: 14px;
     padding-right: 8px;
-  }
-  .pathUl {
-    list-style: none;
-    margin: 0;
-    padding: 0;
   }
 }
 </style>

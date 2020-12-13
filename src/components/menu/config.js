@@ -12,7 +12,6 @@ function install(vm) {
 }
 const compInfo = {
   title: '菜单组件',
-  img: require('./menu.jpg')
 }
 export {
   install,

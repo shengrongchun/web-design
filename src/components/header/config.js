@@ -14,7 +14,6 @@ function install(vm) {
 }
 const compInfo = {
   title: '头部组件',
-  img: require('./header.jpg')
 }
 export {
   install,

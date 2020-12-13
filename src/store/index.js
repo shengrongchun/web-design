@@ -1,17 +1,16 @@
 import { addRoutes } from '../router'
 export default {
   state: {
-    colNum: 24, // 行分多少栅格
-    rowHeight: 10, // 一列每个栅格多少px
-    onLine: false,//线上模式
-    preview: false,//预览状态
+    colNum: 75, // 行分多少栅格
+    rowNum: 50, // 列分多少栅格
+    mode: 'edit',//模式 编辑：edit 预览：preview 线上 online
     activeComp: {},//选中组件
     compList: [], // 组件列表
     compsVm: {},//组件列表对应的实例对象哈希
   },
   mutations: {
-    previewChange(state, val) {//更改预览状态
-      state.preview = val
+    modeChange(state, val) {//更改mode状态
+      state.mode = val
     },
     changeActiveComp(state, val) {//更改选中组件
       state.activeComp = val
@@ -25,20 +24,18 @@ export default {
       alert('保存成功')
     },
     onLineChange(state, VM) {
-      state.onLine = true
-      state.preview = true
+      state.mode = 'online'
       //
       const tempData = JSON.parse(window.localStorage.getItem('web-design'))
       console.log('tempData', tempData)
       state.compList = tempData || []
       addRoutes(VM, state.compList)//初始化注册路由
     },
-    addComp(state, { type, title, list }) { // 增加组件方法
+    addComp(state, { type, title, list, x, y }) { // 增加组件方法
       const comp = {
-        x: 0, y: 0, i: Date.now(), w: 12, h: 12, type, title, children: []
+        x, y, i: Date.now(), w: 30, h: 10, type, title, children: []
       }
-      state.activeComp = comp
-      list.unshift(comp)
+      list.push(comp)
     },
   }
 }

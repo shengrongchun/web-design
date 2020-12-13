@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <DragContainer :list="$store.state.compList" />
+    <DragContainer :list="list" />
   </div>
 </template>
 <script>
@@ -9,10 +9,18 @@ export default {
   components: {
     DragContainer,
   },
+  props: {
+    list: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
 };
 </script>
 <style scoped lang="less">
 .main {
-  flex: 9;
+  height: 100%;
 }
 </style>

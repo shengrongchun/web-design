@@ -12,7 +12,6 @@ function install(vm) {
 }
 const compInfo = {
   title: '表格组件',
-  img: require('./table.jpg')
 }
 export {
   install,

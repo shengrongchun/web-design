@@ -6,13 +6,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import Store from './store'
 import { routes } from './router'
-import coreComps from './pages/lib'
+//
 import dragComps from './components'
 
 Vue.config.productionTip = false
-
-//全局注册router-view容器
-Vue.use(coreComps)
 
 //注册全局拖拉组件
 Vue.use(dragComps)
@@ -39,8 +36,8 @@ const router = new VueRouter(routes)
 //收集组件vm实例放入compsVm中
 Vue.mixin({
   created() {
-    if (this.$attrs.COMP) {//拖拽组件标识-可以查看dragContainer组件
-      this.$store.commit('addCompsVm', { VM: this, i: this.$attrs.COMP.i })
+    if (this.$attrs.SHENGRONGCHUN) {//拖拽组件标识-可以查看dragContainer组件
+      this.$store.commit('addCompsVm', { VM: this, i: this.$attrs.SHENGRONGCHUN })
     }
   }
 })

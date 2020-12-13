@@ -1,34 +1,26 @@
 <template>
-  <div class="comp-container">
+  <div class="compscontainer">
     <div class="search">
-      <el-input v-model="compName"
-                placeholder="请搜索组件"></el-input>
+      <el-input v-model="compName" placeholder="请搜索组件"></el-input>
     </div>
     <div class="comps">
-      <el-card :body-style="{ padding: '0px' }"
-               v-for="(comp, idx) in listCom"
-               :key="idx"
-               :header="comp.title">
-        <img :src="comp.img"
-             v-if="comp.img"
-             @mousedown.stop
-             draggable="true"
-             @dragstart.stop="
+      <el-card
+        :body-style="{ padding: '0px' }"
+        v-for="(comp, idx) in listCom"
+        :key="idx"
+        :header="comp.title"
+      >
+        <div
+          draggable="true"
+          @mousedown.stop
+          @dragstart.stop="
             (e) => {
               onDragstart(e, comp);
             }
           "
-             class="image" />
-        <div v-else
-             draggable="true"
-             @mousedown.stop
-             @dragstart.stop="
-            (e) => {
-              onDragstart(e, comp);
-            }
-          "
-             class="router">
-          路由层
+          class="router"
+        >
+          {{ comp.title }}
         </div>
       </el-card>
     </div>
@@ -53,6 +45,7 @@ export default {
   },
   computed: {
     listCom() {
+      //搜索过滤
       return this.compsList.filter(({ title }) => {
         return title.indexOf(this.compName) > -1;
       });
@@ -70,25 +63,29 @@ export default {
     },
     onDragstart(ev, { name, title }) {
       // 传组件类型
-      ev.dataTransfer.setData("type", JSON.stringify({ type: name, title }));
+      ev.dataTransfer.setData(
+        "type",
+        JSON.stringify({
+          type: name,
+          title,
+          offsetX: ev.offsetX,
+          offsetY: ev.offsetY,
+        })
+      );
     },
   },
 };
 </script>
 <style scoped lang="less">
-.comp-container {
-  //padding: 15px 10px;
+.compscontainer {
   height: 100%;
   .comps {
+    box-sizing: border-box;
     padding: 30px 0;
     overflow: auto;
     height: 100%;
     .el-card {
       margin-bottom: 15px;
-      overflow: auto;
-      .image {
-        min-height: 100px;
-      }
       .router {
         line-height: 100px;
         background: #eee;
