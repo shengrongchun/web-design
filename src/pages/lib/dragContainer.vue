@@ -1,46 +1,35 @@
 <template>
-  <div
-    @dragover.prevent
-    @drop.prevent.stop="onDrop"
-    ref="drag-container"
-    :class="{ 'drag-container': true, even }"
-  >
-    <grid-layout
-      v-if="list.length > 0"
-      :layout.sync="list"
-      :col-num="$store.state.colNum"
-      :row-height="rowHeight"
-      :isResizable="edit"
-      :isDraggable="edit"
-      :verticalCompact="false"
-      :useStyleCursor="false"
-      :margin="[0, 0]"
-      @layout-updated="onLayoutUpdatedEvent"
-    >
-      <grid-item
-        v-for="comp in list"
-        :x="comp.x"
-        :y="comp.y"
-        :w="comp.w"
-        :h="comp.h"
-        :i="comp.i"
-        :key="comp.i"
-        @moved="onChangeActiveComp()"
-        @click.native.stop="onChangeActiveComp(comp)"
-      >
-        <component
-          :is="comp.type"
-          :SHENGRONGCHUN="comp.i"
-          class="comp"
-          :even="!even"
-        >
+  <div @dragover.prevent
+       @drop.prevent.stop="onDrop"
+       ref="drag-container"
+       :class="{ 'drag-container': true, even }">
+    <grid-layout v-if="list.length > 0"
+                 :layout.sync="list"
+                 :col-num="$store.state.colNum"
+                 :row-height="rowHeight"
+                 :isResizable="edit"
+                 :isDraggable="edit"
+                 :verticalCompact="false"
+                 :useStyleCursor="false"
+                 :margin="[0, 0]"
+                 @layout-updated="onLayoutUpdatedEvent">
+      <grid-item v-for="comp in list"
+                 :x="comp.x"
+                 :y="comp.y"
+                 :w="comp.w"
+                 :h="comp.h"
+                 :i="comp.i"
+                 :key="comp.i"
+                 :class="{active: comp.i === $store.state.activeComp.i && edit}"
+                 @moved="onChangeActiveComp()"
+                 @click.native.stop="onChangeActiveComp(comp)">
+        <component :is="comp.type"
+                   :SHENGRONGCHUN="comp.i"
+                   class="comp"
+                   :even="!even">
           <!-- <dragContainer slot="$$container"
                          :list="comp.children" /> -->
         </component>
-        <div
-          v-if="comp.i === $store.state.activeComp.i && edit"
-          class="active"
-        ></div>
       </grid-item>
     </grid-layout>
     <NoData v-else />
@@ -143,23 +132,15 @@ export default {
       touch-action: none;
       background: #ecf5ff;
       cursor: default !important;
+      &.active {
+        box-shadow: 0px 0px 3px 1px #000;
+      }
       .comp {
         //组件样式
         height: 100%;
         width: 100%;
         overflow: auto;
         box-sizing: border-box;
-      }
-      .active {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        background: #8bb6e6;
-        box-shadow: -1px -1px 8px #8bb6e6;
-        opacity: 0.5;
       }
     }
   }

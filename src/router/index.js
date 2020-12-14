@@ -1,10 +1,21 @@
 
 import VueRouter from 'vue-router'
 import DragContainer from '../pages/lib/dragContainer'
+import NoFound from '../pages/lib/noFound'
 
+
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 const routes = {
   mode: 'history',
-  routes: []
+  routes: [{
+    name: '404',
+    path: '*',
+    component: NoFound
+  }]
 }
 //
 const setDeepRoutes = (list, routes) => {
@@ -29,9 +40,9 @@ const setDeepRoutes = (list, routes) => {
 }
 //动态添加路由
 const addRoutes = (vm, list) => {
-  const routes = []
-  setDeepRoutes(list, routes)
-  vm.$router.matcher = new VueRouter(routes).matcher
-  vm.$router.addRoutes(routes)
+  const dYroutes = []
+  setDeepRoutes(list, dYroutes)
+  vm.$router.matcher = new VueRouter(dYroutes).matcher
+  vm.$router.addRoutes(routes.routes.concat(dYroutes))
 }
 export { routes, addRoutes }
