@@ -1,41 +1,46 @@
 <template>
-  <el-dialog
-    title="添加页面"
-    :visible.sync="dialogVisible"
-    width="60%"
-    :close-on-click-modal="false"
-    :modal-append-to-body="false"
-    @close="onClose"
-  >
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="页面名称" prop="title">
-        <el-input v-model="form.title" placeholder="请输入页面名称"></el-input>
-      </el-form-item>
-      <el-form-item label="已占名称" v-if="children.length">
-        <ul class="pathUl">
-          <li v-for="(page, idx) in children" :key="idx">
-            {{ page.title }}
-          </li>
-        </ul>
-      </el-form-item>
-      <el-form-item label="页面路径" prop="path">
-        <el-input v-model="form.path" placeholder="请输入页面路径">
-          <template slot="prepend">{{ form.parentPath + "/" }}</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="已占路径" v-if="children.length">
-        <ul class="pathUl">
-          <li v-for="(page, idx) in children" :key="idx">
-            {{ page.title }}：{{ page.path }}
-          </li>
-        </ul>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="onConfirmAddPage">确 定</el-button>
-    </span>
-  </el-dialog>
+  <div @mousemove.stop>
+    <el-dialog
+      title="添加页面"
+      :visible.sync="dialogVisible"
+      width="60%"
+      :close-on-click-modal="false"
+      :modal-append-to-body="false"
+      @close="onClose"
+    >
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="页面名称" prop="title">
+          <el-input
+            v-model="form.title"
+            placeholder="请输入页面名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="已占名称" v-if="children.length">
+          <ul class="pathUl">
+            <li v-for="(page, idx) in children" :key="idx">
+              {{ page.title }}
+            </li>
+          </ul>
+        </el-form-item>
+        <el-form-item label="页面路径" prop="path">
+          <el-input v-model="form.path" placeholder="请输入页面路径">
+            <template slot="prepend">{{ form.parentPath + "/" }}</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="已占路径" v-if="children.length">
+          <ul class="pathUl">
+            <li v-for="(page, idx) in children" :key="idx">
+              {{ page.title }}：{{ page.path }}
+            </li>
+          </ul>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onConfirmAddPage">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 <script>
 export default {

@@ -3,14 +3,14 @@
     <template>
       <div class="header-left">WebDesign</div>
       <div class="header-right">
-        <div class="header-btn" @click="onShowDrawer('Views')">页面结构</div>
+        <div class="header-btn" @click="onShowDrawer('Views')">项目结构</div>
         <div class="header-btn" @click="onShowDrawer('Comps')">选取组件</div>
         <div class="header-btn" @click="onPreview">预览</div>
         <div class="header-btn" @click="onSave">保存</div>
       </div>
     </template>
     <!-- 页面结构 -->
-    <DrawerContainer v-model="showViews" title="页面结构">
+    <DrawerContainer v-model="showViews" title="项目结构">
       <ViewsContainer />
     </DrawerContainer>
     <!-- 选取组件 -->

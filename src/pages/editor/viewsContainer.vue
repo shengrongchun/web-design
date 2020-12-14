@@ -21,7 +21,7 @@
             v-if="data.type === 'to-router-view'"
             size="mini"
           >
-            添加
+            添加页面
           </el-button>
           <!-- 页面 -->
           <el-button
@@ -83,6 +83,7 @@ export default {
         //添加
         const { title, path, parentPath } = data;
         const page = {
+          i: Date.now(),
           type: "to-router-page",
           title,
           path: parentPath + "/" + (path || ""),
@@ -137,12 +138,36 @@ export default {
         this.$router.push({ path });
       }
     },
-    onDelete() {},
+    onDelete(data) {
+      const { type } = data;
+      let mask = "此组件";
+      if (type === "to-router-page") {
+        mask = "此页面";
+      } else if (type === "to-router-view") {
+        mask = "此容器";
+      }
+      this.$alert("确定删除" + mask + "?", "删除操作", {
+        confirmButtonText: "确定",
+        callback: (action) => {
+          if (action === "confirm") {
+            this.$refs.tree.remove(data);
+            if (
+              data.type === "to-router-page" ||
+              data.type === "to-router-view"
+            ) {
+              //更新路由
+              addRoutes(this, this.$store.state.compList);
+            }
+          }
+        },
+      });
+    },
   },
 };
 </script>
 <style scoped lang="less">
 .viewsContainer {
+  padding: 5px 0;
   height: 100%;
   display: flex;
   .filter-tree {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { Button, Card, Input, Tree, Dialog, Form, FormItem } from 'element-ui'
+import { Button, Card, Input, Tree, Dialog, Form, FormItem, MessageBox } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import Store from './store'
@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 Vue.use(dragComps)
 
 //全局设置element-ui组件大小和弹框的z-index,默认是2000
-Vue.prototype.$ELEMENT = { size: 'mini', zIndex: 3000 }
+Vue.prototype.$ELEMENT = { size: 'mini', zIndex: 2000 }
 //注册全局element-ui组件
 Vue.component(Button.name, Button)
 Vue.component(Card.name, Card)
@@ -24,6 +24,7 @@ Vue.component(Tree.name, Tree)
 Vue.component(Dialog.name, Dialog)
 Vue.component(Form.name, Form)
 Vue.component(FormItem.name, FormItem)
+Vue.prototype.$alert = MessageBox.alert
 
 //store
 Vue.use(Vuex)
