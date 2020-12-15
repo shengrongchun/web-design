@@ -42,8 +42,14 @@ const router = new VueRouter(routes)
 //收集组件vm实例放入compsVm中
 Vue.mixin({
   created() {
-    if (this.$attrs.SHENGRONGCHUN) {//拖拽组件标识-可以查看dragContainer组件
-      this.$store.commit('addCompsVm', { VM: this, i: this.$attrs.SHENGRONGCHUN })
+    if (this.$attrs.COMP) {//拖拽组件标识-可以查看dragContainer组件
+      const { i, $$Config } = this.$attrs.COMP
+      if (!$$Config) {//新创建项目初始化
+        this.$attrs.COMP.$$Config = this.$$Config
+      } else {//线上执行操作
+
+      }
+      this.$store.commit('addCompsVm', { VM: this, i })
     }
   }
 })

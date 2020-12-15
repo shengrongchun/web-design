@@ -5,14 +5,14 @@
   </div>
 </template>
 <script>
-import { compInfo, install } from './config'
+import { compInfo, install } from "./config";
 export default {
-  name: 'headerComp',
+  name: "headerComp",
   $$compInfo: compInfo,
-  created() {
-    install(this)
-  }
-}
+  beforeCreate() {
+    install(this);
+  },
+};
 </script>
 <style scoped lang="less">
 .header-comp {

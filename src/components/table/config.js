@@ -7,7 +7,9 @@ function install(vm) {
     //设置数据相关的配置项目
     dataConfig: [{
 
-    }]
+    }],
+    //交互事件相关的配置项目
+    reactConfig: [{}]
   }
 }
 const compInfo = {
