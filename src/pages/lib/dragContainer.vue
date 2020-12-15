@@ -27,8 +27,8 @@
                    :SHENGRONGCHUN="comp.i"
                    class="comp"
                    :even="!even">
-          <!-- <dragContainer slot="$$container"
-                         :list="comp.children" /> -->
+          <dragContainer slot="$$container"
+                         :list="comp.children" />
         </component>
       </grid-item>
     </grid-layout>

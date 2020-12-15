@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { Button, Card, Input, Tree, Dialog, Form, FormItem, MessageBox } from 'element-ui'
+import {
+  Button, Card, Input, Tree, Dialog, Form, FormItem, MessageBox, Tabs,
+  TabPane,
+} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import Store from './store'
@@ -24,6 +27,8 @@ Vue.component(Tree.name, Tree)
 Vue.component(Dialog.name, Dialog)
 Vue.component(Form.name, Form)
 Vue.component(FormItem.name, FormItem)
+Vue.component(Tabs.name, Tabs)
+Vue.component(TabPane.name, TabPane)
 Vue.prototype.$alert = MessageBox.alert
 
 //store
