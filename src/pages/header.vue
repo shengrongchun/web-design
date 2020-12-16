@@ -3,22 +3,29 @@
     <template>
       <div class="header-left">WebDesign</div>
       <div class="header-right">
-        <div class="header-btn" @click="onShowDrawer('Views')">项目结构</div>
-        <div class="header-btn" @click="onShowDrawer('Comps')">选取组件</div>
-        <div class="header-btn" @click="onPreview">预览</div>
-        <div class="header-btn" @click="onSave">保存</div>
+        <div class="header-btn"
+             @click="onShowDrawer('Views')">项目结构</div>
+        <div class="header-btn"
+             @click="onShowDrawer('Comps')">选取组件</div>
+        <div class="header-btn"
+             @click="onPreview">预览</div>
+        <div class="header-btn"
+             @click="onSave">保存</div>
       </div>
     </template>
     <!-- 页面结构 -->
-    <DrawerContainer v-model="showViews" title="项目结构">
+    <DrawerContainer v-model="showViews"
+                     title="项目结构">
       <ViewsContainer />
     </DrawerContainer>
     <!-- 选取组件 -->
-    <DrawerContainer v-model="showComps" title="选取组件">
+    <DrawerContainer v-model="showComps"
+                     title="选取组件">
       <CompsContainer />
     </DrawerContainer>
     <!-- 选中组件配置页面 -->
-    <DrawerContainer v-model="showEdits" title="组件配置">
+    <DrawerContainer v-model="showEdits"
+                     title="组件配置">
       <EditsContainer />
     </DrawerContainer>
   </div>
@@ -47,6 +54,7 @@ export default {
       //监听选中组件的变化
       handler(newVal) {
         const { type } = newVal;
+        if (!type) return
         this.onShowDrawer(type === "to-router-view" ? "Views" : "Edits");
       },
     },

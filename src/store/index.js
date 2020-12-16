@@ -13,6 +13,7 @@ export default {
       state.mode = val
     },
     changeActiveComp(state, val) {//更改选中组件
+      state.activeComp = {}//这是为了当组件配置弹框人为关闭，再次点击选中组件无法出来组件配置弹框
       state.activeComp = val
     },
     addCompsVm(state, { VM, i }) {//增加组件对应的实例

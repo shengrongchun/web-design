@@ -8,7 +8,9 @@ function install(vm) {
     }],
     //设置数据相关的配置项目
     dataConfig: [{
-
+      title: '设置tabs',
+      type: 'add',
+      key: 'tabsList'
     }],
     //交互事件相关的配置项目
     reactConfig: [{}]

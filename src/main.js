@@ -5,7 +5,6 @@ import {
   Button, Card, Input, Tree, Dialog, Form, FormItem, MessageBox, Tabs,
   TabPane,
 } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import Store from './store'
 import { routes } from './router'
