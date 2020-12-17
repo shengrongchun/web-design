@@ -34,7 +34,7 @@ export default {
     },
     addComp(state, { type, title, list, x, y }) { // 增加组件方法
       const comp = {
-        x, y, i: Date.now(), w: 30, h: 10, type, title, children: []
+        x, y, i: Date.now(), w: 30, h: 10, type, title, static: false, children: []
       }
       list.push(comp)
     },

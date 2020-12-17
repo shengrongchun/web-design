@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import {
   Button, Card, Input, Tree, Dialog, Form, FormItem, MessageBox, Tabs,
-  TabPane,
+  TabPane, Switch
 } from 'element-ui'
 import App from './App.vue'
 import Store from './store'
@@ -30,6 +30,7 @@ Vue.component(Form.name, Form)
 Vue.component(FormItem.name, FormItem)
 Vue.component(Tabs.name, Tabs)
 Vue.component(TabPane.name, TabPane)
+Vue.component(Switch.name, Switch)
 Vue.prototype.$alert = MessageBox.alert
 
 //store

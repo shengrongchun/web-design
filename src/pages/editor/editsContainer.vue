@@ -1,17 +1,19 @@
 <template>
   <div class="editsContainer">
+    <el-switch
+      v-model="$store.state.activeComp.static"
+      inactive-text="静态组件"
+    >
+    </el-switch>
     <el-tabs v-model="active">
-      <el-tab-pane :label="tabs.label"
-                   :key="idx"
-                   v-for="(tabs, idx) in List">
-        <DataEditor :list="tabs.data"
-                    :VM="VM" />
+      <el-tab-pane :label="tabs.label" :key="idx" v-for="(tabs, idx) in List">
+        <DataEditor :list="tabs.data" :VM="VM" />
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script>
-import DataEditor from './commonComps/dataEditor'
+import DataEditor from "./commonComps/dataEditor";
 export default {
   data() {
     return {
@@ -28,7 +30,7 @@ export default {
     "$store.state.activeComp": {
       handler({ i }) {
         //空对象或者相同选中组件不需要再次执行
-        if (!i || (this.activeComp.i === i)) return
+        if (!i || this.activeComp.i === i) return;
         this.setTabs();
       },
     },
