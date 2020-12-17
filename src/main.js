@@ -10,6 +10,8 @@ import Store from './store'
 import { routes } from './router'
 //
 import dragComps from './components'
+//
+import { setSaveVal, getSaveVal } from './utils/index'
 
 Vue.config.productionTip = false
 
@@ -45,8 +47,9 @@ Vue.mixin({
       const { i, $$Config } = this.$attrs.COMP
       if (!$$Config) {//新创建项目初始化
         this.$attrs.COMP.$$Config = this.$$Config
+        setSaveVal(this, this.$$Config)
       } else {//线上执行操作
-
+        getSaveVal(this, $$Config)
       }
       this.$store.commit('addCompsVm', { VM: this, i })
     }

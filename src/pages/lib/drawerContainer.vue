@@ -1,18 +1,15 @@
 <template>
-  <div
-    class="drawerContainer"
-    v-show="value"
-    ref="el"
-    :style="{ right: value ? 0 : '-100%' }"
-  >
-    <div class="drawer-title">{{ title }}</div>
-    <i @click="onClose" class="el-icon-close"></i>
-    <div
-      @mousedown.stop="onMousedown"
-      class="moveContainer"
-      @mouseup.stop.prevent="onMouseup"
-      @mousemove.stop.prevent="onMousemove"
-    >
+  <div class="drawerContainer"
+       v-show="value"
+       @mouseup.stop="onMouseup"
+       @mousemove.stop="onMousemove"
+       ref="el"
+       :style="{ right: value ? 0 : '-100%' }">
+    <div @mousedown.stop="onMousedown"
+         class="drawer-title">{{ title }}</div>
+    <i @click="onClose"
+       class="el-icon-close"></i>
+    <div class="moveContainer">
       <slot />
     </div>
   </div>
@@ -74,7 +71,7 @@ export default {
     0 16px 10px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12);
   transition: right 0.4s ease;
   .drawer-title {
-    pointer-events: none;
+    //pointer-events: none;
     text-align: left;
     position: absolute;
     font-size: 12px;

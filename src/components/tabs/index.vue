@@ -1,8 +1,9 @@
 <template>
   <div class="tabs-comp">
     <el-tabs v-model="activeName">
-      <el-tab-pane :label="tabs.key"
+      <el-tab-pane :label="tabs.label"
                    :key="idx"
+                   :lazy="true"
                    v-for="(tabs, idx) in tabsList">
         <slot name="Container"
               :list="tabs.children" />
@@ -25,21 +26,9 @@ export default {
   },
   data() {
     return {
+      temp: null,
       activeName: "0",
-      //tabsList: [],
-      tabsList: [{
-        key: '用户管理',
-        value: 'first',
-        children: []
-      }, {
-        key: '配置管理',
-        value: 'second',
-        children: []
-      }, {
-        key: '角色管理',
-        value: 'third',
-        children: []
-      }]
+      tabsList: [],
     };
   },
 };
