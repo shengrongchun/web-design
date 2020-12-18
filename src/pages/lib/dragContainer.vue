@@ -1,36 +1,34 @@
 <template>
-  <div
-    @dragover.prevent
-    @drop.prevent.stop="onDrop"
-    ref="drag-container"
-    :class="{ 'drag-container': true, even }"
-  >
-    <grid-layout
-      v-if="list.length > 0"
-      :layout.sync="list"
-      :col-num="$store.state.colNum"
-      :row-height="rowHeight"
-      :isResizable="edit"
-      :isDraggable="edit"
-      :verticalCompact="false"
-      :useStyleCursor="false"
-      :margin="[0, 0]"
-      @layout-updated="onLayoutUpdatedEvent"
-    >
-      <grid-item
-        v-for="comp in list"
-        :x="comp.x"
-        :y="comp.y"
-        :w="comp.w"
-        :h="comp.h"
-        :i="comp.i"
-        :key="comp.i"
-        :static="comp.static"
-        :class="{ active: comp.i === $store.state.activeComp.i && edit }"
-        @moved="onChangeActiveComp()"
-        @click.native.stop="onChangeActiveComp(comp)"
-      >
-        <component :is="comp.type" :COMP="comp" class="comp" :even="!even">
+  <div @dragover.prevent
+       @drop.prevent.stop="onDrop"
+       ref="drag-container"
+       :class="{ 'drag-container': true, even:even&&edit }">
+    <grid-layout v-if="list.length > 0"
+                 :layout.sync="list"
+                 :col-num="$store.state.colNum"
+                 :row-height="rowHeight"
+                 :isResizable="edit"
+                 :isDraggable="edit"
+                 :verticalCompact="false"
+                 :useStyleCursor="false"
+                 :margin="[0, 0]"
+                 @layout-updated="onLayoutUpdatedEvent">
+      <grid-item v-for="comp in list"
+                 :x="comp.x"
+                 :y="comp.y"
+                 :w="comp.w"
+                 :h="comp.h"
+                 :i="comp.i"
+                 :key="comp.i"
+                 :static="comp.static"
+                 :class="{ active: comp.i === $store.state.activeComp.i && edit,edit }"
+                 @moved="onChangeActiveComp()"
+                 @resized="onChangeActiveComp()"
+                 @click.native.stop="onChangeActiveComp(comp)">
+        <component :is="comp.type"
+                   :COMP="comp"
+                   class="comp"
+                   :even="!even">
           <template v-slot:Container="{ list }">
             <dragContainer :list="list ? list : comp.children" />
           </template>
@@ -135,7 +133,9 @@ export default {
     .vue-grid-item {
       box-sizing: border-box;
       touch-action: none;
-      background: #ecf5ff;
+      &.edit {
+        background: #ecf5ff;
+      }
       cursor: default !important;
       &.active {
         box-shadow: 0px 0px 3px 1px #000;

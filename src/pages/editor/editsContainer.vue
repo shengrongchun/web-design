@@ -1,13 +1,17 @@
 <template>
   <div class="editsContainer">
-    <el-switch
-      v-model="$store.state.activeComp.static"
-      inactive-text="静态组件"
-    >
-    </el-switch>
     <el-tabs v-model="active">
-      <el-tab-pane :label="tabs.label" :key="idx" v-for="(tabs, idx) in List">
-        <DataEditor :list="tabs.data" :VM="VM" />
+      <el-tab-pane label="组件配置"
+                   key="0">
+        <el-switch v-model="$store.state.activeComp.static"
+                   inactive-text="静态组件">
+        </el-switch>
+      </el-tab-pane>
+      <el-tab-pane :label="tabs.label"
+                   :key="idx+1"
+                   v-for="(tabs, idx) in List">
+        <DataEditor :list="tabs.data"
+                    :VM="VM" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -44,18 +48,9 @@ export default {
       this.VM = compsVm[activeComp.i];
       //
       const { $$Config } = this.activeComp;
-      if ($$Config) {
-        const { styleConfig, dataConfig, reactConfig } = $$Config;
-        if (styleConfig) {
-          this.List.push({ label: "样式设置", data: styleConfig });
-        }
-        if (reactConfig) {
-          this.List.push({ label: "交互设置", data: reactConfig });
-        }
-        if (dataConfig) {
-          this.List.push({ label: "数据设置", data: dataConfig });
-        }
-      }
+      Object.keys($$Config || {}).forEach((label) => {
+        this.List.push({ label, data: $$Config[label] })
+      })
     },
   },
 };
